@@ -16,19 +16,19 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@v5
       with:
-        python-version: '3.11' # Fixed input name here
+        python-version: '3.11'
 
-    - name: Install Dependencies
+    - name: Install PyInstaller Directly
       run: |
         python -m pip install --upgrade pip
-        pip install -r requirements.txt
+        pip install pyinstaller
 
-    - name: Download Google Fastboot Binaries
+    - name: Download and Extract Google Fastboot Binaries
       run: |
         Invoke-WebRequest -Uri "https://google.com" -OutFile "tools.zip"
-        Expand-Archive -Path "tools.zip" -DestinationPath "platform-tools"
-        Copy-Item "platform-tools\platform-tools\fastboot.exe" -Destination ".\fastboot.exe"
-        Copy-Item "platform-tools\platform-tools\AdbWinApi.dll" -Destination ".\AdbWinApi.dll"
+        Expand-Archive -Path "tools.zip" -DestinationPath "extracted_tools"
+        Get-ChildItem -Path "extracted_tools" -Recurse -Filter "fastboot.exe" | Copy-Item -Destination ".\fastboot.exe"
+        Get-ChildItem -Path "extracted_tools" -Recurse -Filter "AdbWinApi.dll" | Copy-Item -Destination ".\AdbWinApi.dll"
 
     - name: Compile Script to EXE via PyInstaller
       run: |
