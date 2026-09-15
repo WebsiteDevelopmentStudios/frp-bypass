@@ -36,7 +36,7 @@ jobs:
         pyinstaller --onefile --noconsole --add-data "fastboot.exe;." --add-data "AdbWinApi.dll;." main.py
 
     - name: Upload Finished EXE Application
-      uses: actions/actions/upload-artifact@v4
+      uses: actions/upload-artifact@v4
       with:
         name: Fastboot-FRP-Utility
         path: dist/main.exe
