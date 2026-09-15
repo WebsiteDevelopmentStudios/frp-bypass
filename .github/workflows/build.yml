@@ -21,14 +21,14 @@ jobs:
       with:
         python-version: '3.11'
 
-    - name: Install PyInstaller Directly
+    - name: Install PyInstaller and Serial Libraries Directly
       run: |
         python -m pip install --upgrade pip
-        pip install pyinstaller
+        # Force-installing pyserial directly inside the pipeline
+        pip install pyinstaller pyserial
 
     - name: Compile Script to EXE via PyInstaller
       run: |
-        # Pure Python compilation without bulky external binaries
         pyinstaller --onefile main.py
 
     - name: Upload Finished EXE Application
