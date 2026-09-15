@@ -28,11 +28,11 @@ jobs:
 
     - name: Compile Script to EXE via PyInstaller
       run: |
-        # Added AdbWinUsbApi.dll into the compiler line data flags
-        pyinstaller --onefile --add-data "fastboot.exe;." --add-data "AdbWinApi.dll;." --add-data "AdbWinUsbApi.dll;." main.py
+        # Pure Python compilation without bulky external binaries
+        pyinstaller --onefile main.py
 
     - name: Upload Finished EXE Application
       uses: actions/upload-artifact@v4
       with:
-        name: Fastboot-FRP-Utility
+        name: Nokia-FRP-Utility
         path: dist/main.exe
