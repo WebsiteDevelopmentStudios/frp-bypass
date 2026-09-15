@@ -5,6 +5,10 @@ on:
     branches: [ "main" ]
   workflow_dispatch:
 
+# This tells the virtual runner that you acknowledge the Node.js update
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
 jobs:
   build:
     runs-on: windows-latest
@@ -32,7 +36,6 @@ jobs:
 
     - name: Compile Script to EXE via PyInstaller
       run: |
-        # Removed --noconsole so the command terminal is visible to the user
         pyinstaller --onefile --add-data "fastboot.exe;." --add-data "AdbWinApi.dll;." main.py
 
     - name: Upload Finished EXE Application
