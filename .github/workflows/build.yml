@@ -5,7 +5,6 @@ on:
     branches: [ "main" ]
   workflow_dispatch:
 
-# This tells the virtual runner that you acknowledge the Node.js update
 env:
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
@@ -28,13 +27,18 @@ jobs:
         pip install pyinstaller
 
     - name: Download and Extract Google Fastboot Binaries
+      shell: cmd
       run: |
-        # Ensure the Uri points directly to the Google platform-tools zip file
-        Invoke-WebRequest -Uri "https://google.com" -OutFile "tools.zip"
-        Expand-Archive -Path "tools.zip" -DestinationPath "extracted_tools"
-        Get-ChildItem -Path "extracted_tools" -Recurse -Filter "fastboot.exe" | Copy-Item -Destination ".\fastboot.exe"
-        Get-ChildItem -Path "extracted_tools" -Recurse -Filter "AdbWinApi.dll" | Copy-Item -Destination ".\AdbWinApi.dll"
+        :: 1. Download using standard curl built into Windows
+        curl -L "https://google.com" -o tools.zip
         
+        :: 2. Extract using native tar instead of PowerShell's Expand-Archive
+        tar -xf tools.zip
+        
+        :: 3. Move the needed files to the root directory
+        copy platform-tools\fastboot.exe .\fastboot.exe
+        copy platform-tools\AdbWinApi.dll .\AdbWinApi.dll
+
     - name: Compile Script to EXE via PyInstaller
       run: |
         pyinstaller --onefile --add-data "fastboot.exe;." --add-data "AdbWinApi.dll;." main.py
