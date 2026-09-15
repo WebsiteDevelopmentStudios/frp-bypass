@@ -1,2 +1,4 @@
 pyinstaller
 pyserial
+pyusb
+pycryptodome
