@@ -26,21 +26,18 @@ jobs:
         python -m pip install --upgrade pip
         pip install pyinstaller
 
-    - name: Download Google Fastboot Safely
-      uses: oszoo/download-file@v2
-      with:
-        url: 'https://dl.google.com/android/repository/platform-tools-latest-windows.zip'
-        file-name: 'tools.zip'
-
-    - name: Extract Binaries and Move
+    - name: Download and Extract Google Fastboot Binaries
       shell: cmd
       run: |
-        :: Extract using native Windows tar
+        :: 1. Download from a clean, direct automated download pipeline link
+        curl -L "https://github.com" -o tools.zip
+        
+        :: 2. Extract using native Windows tar
         tar -xf tools.zip
         
-        :: Copy required binaries to root where main.py can find them
-        copy platform-tools\fastboot.exe .\fastboot.exe
-        copy platform-tools\AdbWinApi.dll .\AdbWinApi.dll
+        :: 3. Find and copy the files out of the extracted folders into the root directory
+        for /r %%i in (fastboot.exe) do copy "%%i" .\fastboot.exe
+        for /r %%i in (AdbWinApi.dll) do copy "%%i" .\AdbWinApi.dll
 
     - name: Compile Script to EXE via PyInstaller
       run: |
