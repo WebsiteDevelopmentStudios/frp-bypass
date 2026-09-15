@@ -32,7 +32,8 @@ jobs:
 
     - name: Compile Script to EXE via PyInstaller
       run: |
-        pyinstaller --onefile --noconsole --add-data "fastboot.exe;." --add-data "AdbWinApi.dll;." main.py
+        # Removed --noconsole so the command terminal is visible to the user
+        pyinstaller --onefile --add-data "fastboot.exe;." --add-data "AdbWinApi.dll;." main.py
 
     - name: Upload Finished EXE Application
       uses: actions/upload-artifact@v4
