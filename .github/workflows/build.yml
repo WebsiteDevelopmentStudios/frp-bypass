@@ -29,11 +29,12 @@ jobs:
 
     - name: Download and Extract Google Fastboot Binaries
       run: |
+        # Ensure the Uri points directly to the Google platform-tools zip file
         Invoke-WebRequest -Uri "https://google.com" -OutFile "tools.zip"
         Expand-Archive -Path "tools.zip" -DestinationPath "extracted_tools"
         Get-ChildItem -Path "extracted_tools" -Recurse -Filter "fastboot.exe" | Copy-Item -Destination ".\fastboot.exe"
         Get-ChildItem -Path "extracted_tools" -Recurse -Filter "AdbWinApi.dll" | Copy-Item -Destination ".\AdbWinApi.dll"
-
+        
     - name: Compile Script to EXE via PyInstaller
       run: |
         pyinstaller --onefile --add-data "fastboot.exe;." --add-data "AdbWinApi.dll;." main.py
