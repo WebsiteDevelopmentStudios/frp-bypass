@@ -21,11 +21,10 @@ jobs:
       with:
         python-version: '3.11'
 
-    - name: Install PyInstaller and Serial Libraries Directly
+    - name: Install Servicing Dependencies Directly
       run: |
         python -m pip install --upgrade pip
-        # Force-installing pyserial directly inside the pipeline
-        pip install pyinstaller pyserial
+        pip install pyinstaller pyserial pyusb pycryptodome
 
     - name: Compile Script to EXE via PyInstaller
       run: |
@@ -34,5 +33,5 @@ jobs:
     - name: Upload Finished EXE Application
       uses: actions/upload-artifact@v4
       with:
-        name: Nokia-FRP-Utility
+        name: Nokia-Hardware-Reset-Tool
         path: dist/main.exe
