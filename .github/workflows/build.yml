@@ -2,8 +2,8 @@ name: Build Windows EXE
 
 on:
   push:
-    branches: [ "main" ] # Triggers the build whenever you save changes to main
-  workflow_dispatch: # Allows you to trigger the build manually with a button
+    branches: [ "main" ]
+  workflow_dispatch:
 
 jobs:
   build:
@@ -16,7 +16,7 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@v5
       with:
-        python-python-version: '3.11'
+        python-version: '3.11' # Fixed input name here
 
     - name: Install Dependencies
       run: |
@@ -25,7 +25,6 @@ jobs:
 
     - name: Download Google Fastboot Binaries
       run: |
-        # This downloads the official Google platform tools safely during the build
         Invoke-WebRequest -Uri "https://google.com" -OutFile "tools.zip"
         Expand-Archive -Path "tools.zip" -DestinationPath "platform-tools"
         Copy-Item "platform-tools\platform-tools\fastboot.exe" -Destination ".\fastboot.exe"
