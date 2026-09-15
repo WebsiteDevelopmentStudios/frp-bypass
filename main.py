@@ -11,16 +11,18 @@ def main():
     print("[STEP 3] Plug in the USB cable while holding the keys.\n")
     print("Searching for low-level MediaTek hardware connection...")
 
-    # Instead of fastboot, professional scripts look for the raw preloader port
-    # This sample logic simulates scanning standard serial communication channels
-    device_found = False
-    for i in range(10):
-        print(f" Scanning hardware buses (Attempt {i+1}/10)...")
-        time.all_sleep(2)
+    # Scanning loop simulation
+    for i in range(5):
+        print(f" Scanning hardware buses (Attempt {i+1}/5)...")
+        time.sleep(1) # Corrected function name
         
     print("\n[NOTICE] To communicate with raw chipsets on Windows,")
     print("ensure you install 'libusb-win32' or Nokia MTK drivers.")
     print("Otherwise, the computer cannot route raw USB traffic to your script.")
+
+    print("\n=========================================")
+    # This line prevents the window from closing instantly
+    input("\nExecution finished. Press ENTER to close this tool...")
 
 if __name__ == "__main__":
     main()
